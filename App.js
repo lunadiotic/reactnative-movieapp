@@ -11,13 +11,16 @@ const getPopMovies = async () => {
 
 const App = () => {
   const [movie, setMovie] = useState({});
+  const [errorStatus, setErrorStatus] = useState(false);
 
   useEffect(() => {
     getPopMovies()
-      .then(result => {
-        setMovie(result[0]);
+      .then(movies => {
+        setMovie(movies[0]);
       })
-      .catch(err => {});
+      .catch(err => {
+        setErrorStatus(err);
+      });
   }, []);
 
   return (
@@ -30,6 +33,7 @@ const App = () => {
       <Text>{movie.original_title}</Text>
       <Text>{movie.original_language}</Text>
       <Text>{movie.release_date}</Text>
+      {errorStatus && <Text style={{color: 'red'}}>Internal Server Error</Text>}
     </View>
   );
 };
