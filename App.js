@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import axios from 'axios';
 
@@ -11,11 +11,14 @@ const getPopMovies = async () => {
 
 const App = () => {
   const [movie, setMovie] = useState({});
-  getPopMovies()
-    .then(result => {
-      setMovie(result[0]);
-    })
-    .catch(err => {});
+
+  useEffect(() => {
+    getPopMovies()
+      .then(result => {
+        setMovie(result[0]);
+      })
+      .catch(err => {});
+  }, []);
 
   return (
     <View
