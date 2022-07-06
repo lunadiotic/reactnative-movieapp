@@ -14,46 +14,34 @@ import ListComponent from '../components/ListComponent';
 const dimensions = Dimensions.get('screen');
 
 const Home = () => {
-  const [popMovie, setPopMovie] = useState([]);
-  const [popTV, setPopTV] = useState([]);
-  const [familyMovie, setFamilyMovie] = useState([]);
-  const [movieImages, setMovieImages] = useState([]);
+  const [popMovie, setPopMovie] = useState();
+  const [popTV, setPopTV] = useState();
+  const [familyMovie, setFamilyMovie] = useState();
+  const [movieImages, setMovieImages] = useState();
   const [err, setErr] = useState(false);
 
+  const getMovieData = () => {
+    return Promise.all([
+      getUpcomingMovies(),
+      getPopularMovies(),
+      getPopularTv(),
+      getFamilyMovies(),
+    ]);
+  };
+
   useEffect(() => {
-    getUpcomingMovies()
-      .then(movies => {
+    getMovieData()
+      .then(([upcomingMovies, popularMovies, popularTv, familyMovies]) => {
         let images = [];
-        for (let movie = 0; movie < movies.length; movie++) {
+        for (let movie = 0; movie < upcomingMovies.length; movie++) {
           images.push(
-            `https://image.tmdb.org/t/p/w500${movies[movie]['poster_path']}`,
+            `https://image.tmdb.org/t/p/w500${upcomingMovies[movie]['poster_path']}`,
           );
         }
         setMovieImages(images);
-      })
-      .catch(err => {
-        setErr(err);
-      });
-
-    getPopularMovies()
-      .then(movies => {
-        setPopMovie(movies);
-      })
-      .catch(err => {
-        setErr(err);
-      });
-
-    getPopularTv()
-      .then(movies => {
-        setPopTV(movies);
-      })
-      .catch(err => {
-        setErr(err);
-      });
-
-    getFamilyMovies()
-      .then(movies => {
-        setFamilyMovie(movies);
+        setPopMovie(popularMovies);
+        setPopTV(popularTv);
+        setFamilyMovie(familyMovies);
       })
       .catch(err => {
         setErr(err);
@@ -63,28 +51,43 @@ const Home = () => {
   return (
     <React.Fragment>
       <ScrollView>
-        <View style={styles.container}>
-          <SliderBox
-            images={movieImages}
-            autoplay={true}
-            circleLoop={true}
-            sliderBoxHeight={dimensions.height / 1.5}
-            dotStyle={styles.sliderStyle}
-          />
-        </View>
-        <View style={styles.container}>
-          <ListComponent
-            title="Popular Movies"
-            content={popMovie}></ListComponent>
-        </View>
-        <View style={styles.container}>
-          <ListComponent title="Popular TV" content={popTV}></ListComponent>
-        </View>
-        <View style={styles.container}>
-          <ListComponent
-            title="Family Movies"
-            content={familyMovie}></ListComponent>
-        </View>
+        {/* Slider */}
+        {movieImages && (
+          <View style={styles.container}>
+            <SliderBox
+              images={movieImages}
+              autoplay={true}
+              circleLoop={true}
+              sliderBoxHeight={dimensions.height / 1.5}
+              dotStyle={styles.sliderStyle}
+            />
+          </View>
+        )}
+
+        {/* popular movie carousel */}
+        {popMovie && (
+          <View style={styles.container}>
+            <ListComponent
+              title="Popular Movies"
+              content={popMovie}></ListComponent>
+          </View>
+        )}
+
+        {/* popular tv carousel */}
+        {popTV && (
+          <View style={styles.container}>
+            <ListComponent title="Popular TV" content={popTV}></ListComponent>
+          </View>
+        )}
+
+        {/* family movie carousel */}
+        {familyMovie && (
+          <View style={styles.container}>
+            <ListComponent
+              title="Family Movies"
+              content={familyMovie}></ListComponent>
+          </View>
+        )}
       </ScrollView>
     </React.Fragment>
   );
