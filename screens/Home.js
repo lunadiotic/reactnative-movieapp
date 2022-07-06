@@ -1,9 +1,11 @@
 /* eslint-disable */
 
 import React, {useEffect, useState} from 'react';
-import {Text} from 'react-native';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import {getPopularMovies, getUpcomingMovies} from '../services/api-request';
 import {SliderBox} from 'react-native-image-slider-box';
+
+const dimensions = Dimensions.get('screen');
 
 const Home = () => {
   const [movie, setMovie] = useState('');
@@ -34,13 +36,27 @@ const Home = () => {
       });
   }, []);
   return (
-    <>
-      <SliderBox images={movieImages} />
-      <Text>Title: {movie.original_title}</Text>
-      <Text>Release Date: {movie.release_date}</Text>
-      {err && <Text style={{color: 'red'}}>Internal Server Error</Text>}
-    </>
+    <View style={styles.sliderContainer}>
+      <SliderBox
+        images={movieImages}
+        autoplay={true}
+        circleLoop={true}
+        sliderBoxHeight={dimensions.height / 1.5}
+        dotStyle={styles.sliderStyle}
+      />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  sliderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  sliderStyle: {
+    height: 0,
+  },
+});
 
 export default Home;
