@@ -1,7 +1,13 @@
 /* eslint-disable */
 
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Dimensions, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import {
   getFamilyMovies,
   getPopularMovies,
@@ -19,6 +25,7 @@ const Home = () => {
   const [familyMovie, setFamilyMovie] = useState();
   const [movieImages, setMovieImages] = useState();
   const [err, setErr] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const getMovieData = () => {
     return Promise.all([
@@ -45,50 +52,59 @@ const Home = () => {
       })
       .catch(err => {
         setErr(err);
+      })
+      .finally(() => {
+        setLoaded(true);
       });
   }, []);
 
   return (
     <React.Fragment>
-      <ScrollView>
-        {/* Slider */}
-        {movieImages && (
-          <View style={styles.container}>
-            <SliderBox
-              images={movieImages}
-              autoplay={true}
-              circleLoop={true}
-              sliderBoxHeight={dimensions.height / 1.5}
-              dotStyle={styles.sliderStyle}
-            />
-          </View>
-        )}
+      {loaded && (
+        <ScrollView>
+          {/* Slider */}
+          {movieImages && (
+            <View style={styles.container}>
+              <SliderBox
+                images={movieImages}
+                autoplay={true}
+                circleLoop={true}
+                sliderBoxHeight={dimensions.height / 1.5}
+                dotStyle={styles.sliderStyle}
+              />
+            </View>
+          )}
 
-        {/* popular movie carousel */}
-        {popMovie && (
-          <View style={styles.container}>
-            <ListComponent
-              title="Popular Movies"
-              content={popMovie}></ListComponent>
-          </View>
-        )}
+          {/* popular movie carousel */}
+          {popMovie && (
+            <View style={styles.container}>
+              <ListComponent
+                title="Popular Movies"
+                content={popMovie}></ListComponent>
+            </View>
+          )}
 
-        {/* popular tv carousel */}
-        {popTV && (
-          <View style={styles.container}>
-            <ListComponent title="Popular TV" content={popTV}></ListComponent>
-          </View>
-        )}
+          {/* popular tv carousel */}
+          {popTV && (
+            <View style={styles.container}>
+              <ListComponent title="Popular TV" content={popTV}></ListComponent>
+            </View>
+          )}
 
-        {/* family movie carousel */}
-        {familyMovie && (
-          <View style={styles.container}>
-            <ListComponent
-              title="Family Movies"
-              content={familyMovie}></ListComponent>
-          </View>
-        )}
-      </ScrollView>
+          {/* family movie carousel */}
+          {familyMovie && (
+            <View style={styles.container}>
+              <ListComponent
+                title="Family Movies"
+                content={familyMovie}></ListComponent>
+            </View>
+          )}
+        </ScrollView>
+      )}
+
+      {!loaded && (
+        <ActivityIndicator size="large" style={{opacity: 1}} color="#999999" />
+      )}
     </React.Fragment>
   );
 };
