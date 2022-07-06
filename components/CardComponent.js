@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {memo} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 const placeholderImage = require('../assets/images/placeholder.png');
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
 
 CardComponent.propTypes = propTypes;
 
-export default CardComponent;
+export default memo(CardComponent);

@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {memo} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import CardComponent from './CardComponent';
 
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
 
 List.propTypes = propTypes;
 
-export default List;
+export default memo(List);
