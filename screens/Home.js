@@ -1,14 +1,14 @@
 /* eslint-disable */
 
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, FlatList} from 'react-native';
 import {getPopularMovies, getUpcomingMovies} from '../services/api-request';
 import {SliderBox} from 'react-native-image-slider-box';
 
 const dimensions = Dimensions.get('screen');
 
 const Home = () => {
-  const [movie, setMovie] = useState('');
+  const [popMovie, setPopMovie] = useState([]);
   const [movieImages, setMovieImages] = useState([]);
   const [err, setErr] = useState(false);
 
@@ -29,22 +29,31 @@ const Home = () => {
 
     getPopularMovies()
       .then(movies => {
-        setMovie(movies[0]);
+        setPopMovie(movies);
       })
       .catch(err => {
         setErr(err);
       });
   }, []);
+
   return (
-    <View style={styles.sliderContainer}>
-      <SliderBox
-        images={movieImages}
-        autoplay={true}
-        circleLoop={true}
-        sliderBoxHeight={dimensions.height / 1.5}
-        dotStyle={styles.sliderStyle}
-      />
-    </View>
+    <React.Fragment>
+      <View style={styles.sliderContainer}>
+        <SliderBox
+          images={movieImages}
+          autoplay={true}
+          circleLoop={true}
+          sliderBoxHeight={dimensions.height / 1.5}
+          dotStyle={styles.sliderStyle}
+        />
+      </View>
+      <View style={styles.carousel}>
+        <FlatList
+          data={popMovie}
+          horizontal={true}
+          renderItem={({item}) => <Text>{item.title}</Text>}></FlatList>
+      </View>
+    </React.Fragment>
   );
 };
 
@@ -56,6 +65,11 @@ const styles = StyleSheet.create({
   },
   sliderStyle: {
     height: 0,
+  },
+  carousel: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
