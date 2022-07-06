@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import {getPopularMovies, getUpcomingMovies} from '../services/api-request';
 import {SliderBox} from 'react-native-image-slider-box';
-import CarouselList from '../components/CarouselList';
+import ListComponent from '../components/ListComponent';
 
 const dimensions = Dimensions.get('screen');
 
@@ -49,7 +49,9 @@ const Home = () => {
         />
       </View>
       <View style={styles.container}>
-        <CarouselList title="Popular Movies" content={popMovie}></CarouselList>
+        <ListComponent
+          title="Popular Movies"
+          content={popMovie}></ListComponent>
       </View>
     </React.Fragment>
   );

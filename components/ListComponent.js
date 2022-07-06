@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
+import CardComponent from './CardComponent';
 
 const List = props => {
   const {title, content} = props;
@@ -14,7 +15,7 @@ const List = props => {
         <FlatList
           data={content}
           horizontal={true}
-          renderItem={({item}) => <Text>{item.title}</Text>}
+          renderItem={({item}) => <CardComponent item={item} />}
         />
       </View>
     </View>
