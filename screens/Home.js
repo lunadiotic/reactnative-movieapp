@@ -1,9 +1,10 @@
 /* eslint-disable */
 
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Dimensions, FlatList} from 'react-native';
+import {StyleSheet, View, Dimensions} from 'react-native';
 import {getPopularMovies, getUpcomingMovies} from '../services/api-request';
 import {SliderBox} from 'react-native-image-slider-box';
+import CarouselList from '../components/CarouselList';
 
 const dimensions = Dimensions.get('screen');
 
@@ -38,7 +39,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <View style={styles.sliderContainer}>
+      <View style={styles.container}>
         <SliderBox
           images={movieImages}
           autoplay={true}
@@ -47,29 +48,21 @@ const Home = () => {
           dotStyle={styles.sliderStyle}
         />
       </View>
-      <View style={styles.carousel}>
-        <FlatList
-          data={popMovie}
-          horizontal={true}
-          renderItem={({item}) => <Text>{item.title}</Text>}></FlatList>
+      <View style={styles.container}>
+        <CarouselList title="Popular Movies" content={popMovie}></CarouselList>
       </View>
     </React.Fragment>
   );
 };
 
 const styles = StyleSheet.create({
-  sliderContainer: {
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   sliderStyle: {
     height: 0,
-  },
-  carousel: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 
