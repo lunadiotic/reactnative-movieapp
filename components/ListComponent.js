@@ -1,8 +1,14 @@
 /* eslint-disable */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import CardComponent from './CardComponent';
+
+const propTypes = {
+  title: PropTypes.string,
+  content: PropTypes.array,
+};
 
 const List = props => {
   const {title, content} = props;
@@ -37,5 +43,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+List.propTypes = propTypes;
 
 export default List;

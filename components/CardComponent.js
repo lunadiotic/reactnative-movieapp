@@ -1,9 +1,14 @@
 /* eslint-disable */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 const placeholderImage = require('../assets/images/placeholder.png');
+
+const propTypes = {
+  item: PropTypes.object,
+};
 
 const CardComponent = props => {
   const {item} = props;
@@ -49,5 +54,7 @@ const styles = StyleSheet.create({
     // alignSelf: 'center',
   },
 });
+
+CardComponent.propTypes = propTypes;
 
 export default CardComponent;
