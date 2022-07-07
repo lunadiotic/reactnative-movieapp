@@ -20,7 +20,8 @@ import ErrorComponent from '../components/ErrorComponent';
 
 const dimensions = Dimensions.get('screen');
 
-const Home = () => {
+const Home = props => {
+  const {navigation} = props;
   const [popMovie, setPopMovie] = useState();
   const [popTV, setPopTV] = useState();
   const [familyMovie, setFamilyMovie] = useState();
@@ -80,6 +81,7 @@ const Home = () => {
           {popMovie && (
             <View style={styles.container}>
               <ListComponent
+                navigation={navigation}
                 title="Popular Movies"
                 content={popMovie}></ListComponent>
             </View>
@@ -88,7 +90,10 @@ const Home = () => {
           {/* popular tv carousel */}
           {popTV && (
             <View style={styles.container}>
-              <ListComponent title="Popular TV" content={popTV}></ListComponent>
+              <ListComponent
+                navigation={navigation}
+                title="Popular TV"
+                content={popTV}></ListComponent>
             </View>
           )}
 
@@ -96,6 +101,7 @@ const Home = () => {
           {familyMovie && (
             <View style={styles.container}>
               <ListComponent
+                navigation={navigation}
                 title="Family Movies"
                 content={familyMovie}></ListComponent>
             </View>

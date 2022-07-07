@@ -11,10 +11,12 @@ const propTypes = {
 };
 
 const CardComponent = props => {
-  const {item} = props;
+  const {item, navigation} = props;
   return (
     <View>
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => navigation.navigate('Detail')}>
         <Image
           style={styles.image}
           source={

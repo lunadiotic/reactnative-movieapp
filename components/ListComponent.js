@@ -11,7 +11,7 @@ const propTypes = {
 };
 
 const List = props => {
-  const {title, content} = props;
+  const {title, content, navigation} = props;
   return (
     <View style={styles.list}>
       <View>
@@ -21,7 +21,9 @@ const List = props => {
         <FlatList
           data={content}
           horizontal={true}
-          renderItem={({item}) => <CardComponent item={item} />}
+          renderItem={({item}) => (
+            <CardComponent item={item} navigation={navigation} />
+          )}
         />
       </View>
     </View>
