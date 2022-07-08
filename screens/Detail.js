@@ -58,12 +58,17 @@ const Detail = ({route, navigation}) => {
                 ))}
               </View>
             )}
-            <Text>{movie.vote_average}</Text>
-            <StarRating
-              disabled={false}
-              maxStars={5}
-              rating={movie.vote_average / 2}
-            />
+            <View style={styles.starsContainer}>
+              <Text>{movie.vote_average}</Text>
+              <StarRating
+                starSize={35}
+                fullStarColor={'gold'}
+                halfStarColor={'gold'}
+                disabled={true}
+                maxStars={5}
+                rating={movie.vote_average / 2}
+              />
+            </View>
             <Text>{movie.overview}</Text>
           </View>
           <Text>{JSON.stringify(movie)}</Text>
@@ -82,6 +87,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  starsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
   },
   image: {
     height: dimensions.height / 2.5,
