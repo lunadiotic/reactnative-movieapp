@@ -5,6 +5,8 @@ import {
   ActivityIndicator,
   Dimensions,
   Image,
+  Modal,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -23,6 +25,11 @@ const Detail = ({route, navigation}) => {
   const [movie, setMovie] = useState();
   const [err, setErr] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const videoShown = () => {
+    setModalVisible(!modalVisible);
+  };
 
   useEffect(() => {
     getDetailMovie(movieId)
@@ -38,50 +45,59 @@ const Detail = ({route, navigation}) => {
   return (
     <View>
       {loaded && !err && (
-        <ScrollView>
-          <Image
-            style={styles.image}
-            source={
-              movie.poster_path
-                ? {
-                    uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-                  }
-                : placeholderImage
-            }
-          />
-          <View style={styles.container}>
-            <View style={styles.playButton} opacity={0.5}>
-              <PlayButtonComponent />
-            </View>
-            <Text style={styles.movieTitle}>{movie.title}</Text>
-            {movie.genres && (
-              <View style={styles.genreContainer}>
-                {movie.genres.map((genre, index) => (
-                  <Text key={index} style={styles.genreTitle}>
-                    {genre.name}
-                  </Text>
-                ))}
+        <>
+          <ScrollView>
+            <Image
+              style={styles.image}
+              source={
+                movie.poster_path
+                  ? {
+                      uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                    }
+                  : placeholderImage
+              }
+            />
+            <View style={styles.container}>
+              <View style={styles.playButton} opacity={0.5}>
+                <PlayButtonComponent handlePress={videoShown} />
               </View>
-            )}
-            <View style={styles.starsContainer}>
-              <Text>{movie.vote_average}</Text>
-              <StarRating
-                starSize={35}
-                fullStarColor={'gold'}
-                halfStarColor={'gold'}
-                disabled={true}
-                maxStars={5}
-                rating={movie.vote_average / 2}
-              />
+              <Text style={styles.movieTitle}>{movie.title}</Text>
+              {movie.genres && (
+                <View style={styles.genreContainer}>
+                  {movie.genres.map((genre, index) => (
+                    <Text key={index} style={styles.genreTitle}>
+                      {genre.name}
+                    </Text>
+                  ))}
+                </View>
+              )}
+              <View style={styles.starsContainer}>
+                <Text>{movie.vote_average}</Text>
+                <StarRating
+                  starSize={35}
+                  fullStarColor={'gold'}
+                  halfStarColor={'gold'}
+                  disabled={true}
+                  maxStars={5}
+                  rating={movie.vote_average / 2}
+                />
+              </View>
+              <Text style={styles.releaseDate}>
+                {'Release date: ' +
+                  dateFormat(movie.release_date, 'dddd, d mmmm yyyy')}
+              </Text>
+              <Text style={styles.overview}>{movie.overview}</Text>
             </View>
-            <Text style={styles.releaseDate}>
-              {'Release date: ' +
-                dateFormat(movie.release_date, 'dddd, d mmmm yyyy')}
-            </Text>
-            <Text style={styles.overview}>{movie.overview}</Text>
-          </View>
-          <Text>{JSON.stringify(movie)}</Text>
-        </ScrollView>
+            <Text>{JSON.stringify(movie)}</Text>
+          </ScrollView>
+          <Modal animationType="slide" visible={modalVisible}>
+            <View style={styles.videoModal}>
+              <Pressable onPress={() => videoShown()}>
+                <Text>x</Text>
+              </Pressable>
+            </View>
+          </Modal>
+        </>
       )}
       {!loaded && (
         <ActivityIndicator size="large" style={{opacity: 1}} color="#999999" />
@@ -132,6 +148,11 @@ const styles = StyleSheet.create({
     top: -70,
     right: 20,
     alignContent: 'center',
+  },
+  videoModal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
