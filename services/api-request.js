@@ -30,3 +30,9 @@ export const getFamilyMovies = async () => {
   );
   return response.data.results;
 };
+
+// Get Detail Movie
+export const getDetailMovie = async id => {
+  const response = await axios.get(`${apiURL}/movie/${id}?${apiKey}`);
+  return response.data;
+};
