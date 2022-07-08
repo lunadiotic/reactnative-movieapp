@@ -10,6 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import StarRating from 'react-native-star-rating';
 import {getDetailMovie} from '../services/api-request';
 
 const dimensions = Dimensions.get('screen');
@@ -57,6 +58,12 @@ const Detail = ({route, navigation}) => {
                 ))}
               </View>
             )}
+            <Text>{movie.vote_average}</Text>
+            <StarRating
+              disabled={false}
+              maxStars={5}
+              rating={movie.vote_average / 2}
+            />
             <Text>{movie.overview}</Text>
           </View>
           <Text>{JSON.stringify(movie)}</Text>
@@ -88,7 +95,6 @@ const styles = StyleSheet.create({
   genreContainer: {
     flexDirection: 'row',
     alignContent: 'center',
-    marginBottom: 20,
   },
   genreTitle: {
     marginHorizontal: 10,
