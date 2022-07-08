@@ -46,6 +46,19 @@ const Detail = ({route, navigation}) => {
                 : placeholderImage
             }
           />
+          <View style={styles.container}>
+            <Text style={styles.movieTitle}>{movie.title}</Text>
+            {movie.genres && (
+              <View style={styles.genreContainer}>
+                {movie.genres.map((genre, index) => (
+                  <Text key={index} style={styles.genreTitle}>
+                    {genre.name}
+                  </Text>
+                ))}
+              </View>
+            )}
+            <Text>{movie.overview}</Text>
+          </View>
           <Text>{JSON.stringify(movie)}</Text>
         </ScrollView>
       )}
@@ -58,8 +71,28 @@ const Detail = ({route, navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   image: {
     height: dimensions.height / 2.5,
+  },
+  movieTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  genreContainer: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    marginBottom: 20,
+  },
+  genreTitle: {
+    marginHorizontal: 10,
+    fontWeight: 'bold',
   },
 });
 
