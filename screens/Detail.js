@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import StarRating from 'react-native-star-rating';
 import dateFormat from 'dateformat';
+// import VideoPlayer from 'react-native-video-player';
+import VideoPlayer from 'react-native-video-controls';
 import {getDetailMovie} from '../services/api-request';
 import PlayButtonComponent from '../components/PlayButtonComponent';
 
@@ -92,9 +94,16 @@ const Detail = ({route, navigation}) => {
           </ScrollView>
           <Modal animationType="slide" visible={modalVisible}>
             <View style={styles.videoModal}>
-              <Pressable onPress={() => videoShown()}>
-                <Text>x</Text>
-              </Pressable>
+              <VideoPlayer
+                source={{
+                  uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                }}
+                controlTimeout={1000}
+                tapAnywhereToPause={true}
+                onBack={() => {
+                  videoShown();
+                }}
+              />
             </View>
           </Modal>
         </>
@@ -152,7 +161,7 @@ const styles = StyleSheet.create({
   videoModal: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
 });
 
